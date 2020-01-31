@@ -1,18 +1,22 @@
 const mongoose = require("mongoose");
 const Schema   = mongoose.Schema;
+const ObjectId = mongoose.Schema.Types.ObjectId
 
-const userSchema = new Schema({
-
+const User = mongoose.model("user", new Schema ({
   userId: String,
   username: String,
   password: String,
   email: String,
-  friends: [String],
-  gameCollection: [String],
+  firstName: String,
+  lastName: String,
+  friends: [{type: ObjectId, ref: "user"}],
+  groups: [{type: ObjectId, ref: "group"}],
+  gameCollection: [{type: ObjectId, ref: "game"}],
   googleID: String,
+  steamId: String
+},
+{
   timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
-});
-
-const User = mongoose.model("user", userSchema);
+}));
 
 module.exports = User;

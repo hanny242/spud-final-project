@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const Schema   = mongoose.Schema;
-const User = require("/models/User");
+const ObjectId = mongoose.Schema.Types.ObjectId
 
-const groupSchema = new Schema({
-  members: [User.userId],
-  timestamps: { createdAt: "created_at", updatedAt: "updated_at" }
-});
-
-const User = mongoose.model("group", groupSchema);
+const Group = mongoose.model("group", new Schema ({
+  name: String,
+  gameSession: String,
+  members: [{type: ObjectId, ref: "user"}],
+  imgae: String
+}))
 
 module.exports = Group;
