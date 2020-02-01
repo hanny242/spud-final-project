@@ -5,15 +5,11 @@ const User = require("../models/User");
 
 var userGameCollection = [{}]
 
-router.get("/gamecollection", (req, res) => {
-    Game.find(User){
-        for(User.gameCollection.ObjectId in User){
-            if(User.gameCollection.ObjectId === Game.ObjectId)
-        }
-    }
-    )
-    .then((game) => {
-        res.send('respond with a resource')
+router.get("/", (req, res) => {
+    User.findById(req.session.passport.user._id)
+    .populate("gameCollection")
+    .then(({gameCollection}) => {
+        res.json(gameCollection)
     })
     .catch((err) => console.log(err))
 })

@@ -13,16 +13,19 @@ router.get("/", (req, res, next) => {
 router.post("/", bodyParser, (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const email = req.body.email;
 
   if (username === "" || password === "") {
-    res.render("/signup", { message: "Geef gebruikersnaam en wachtwoord op" });
+    res.render("/signup", { message: "Please fill out username and password" });
     return;
   }
 
   User.findOne({ username })
   .then(user => {
     if (user !== null) {
-      res.render("/signup", { message: "Gebruikersnaam al genomen" });
+      res.render("/signup", { message: "This username is already taken" });
       return;
     }
 
@@ -31,12 +34,15 @@ router.post("/", bodyParser, (req, res, next) => {
 
     const newUser = new User({
       username,
-      password: hashPass
+      password: hashPass,
+      lastName,
+      firstName,
+      email
     });
 
     newUser.save((err) => {
       if (err) {
-        res.render("/signup", { message: "Er is iets fout gegaan" });
+        res.render("/signup", { message: "An error occurred during signup" });
       } else {
         res.redirect("/");
       }

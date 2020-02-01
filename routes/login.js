@@ -16,11 +16,11 @@ router.get("/", (req, res, next) => {
 });
   
 router.post("/", passport.authenticate("local", {
-  successRedirect: "/private-page",
-  failureRedirect: "/login",
   failureFlash: true,
   passReqToCallback: true
-}));
+}), (req,res)=> {
+  res.json(req.session.passport);
+});
 
 //redirect to "profile" needs to be finished
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
@@ -28,7 +28,7 @@ router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
 });
 
 passport.serializeUser((user, cb) => {
-  cb(null, user._id);
+  cb(null, user);
 });
 
 passport.deserializeUser((id, cb) => {

@@ -37,10 +37,22 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+// passport init and config
+app.use(session({
+  secret: "our-passport-local-strategy-app",
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/signup', signUp);
 app.use('/login', logIn);
+app.use('/game-collection', require("./routes/gameCollection"));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -58,15 +70,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-// passport init and config
-app.use(session({
-  secret: "our-passport-local-strategy-app",
-  resave: true,
-  saveUninitialized: true
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 module.exports = app;

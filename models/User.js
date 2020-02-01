@@ -10,8 +10,7 @@ const User = mongoose.model("user", new Schema ({
   firstName: String,
   lastName: String,
   friends: [{type: ObjectId, ref: "user"}],
-  groups: [{type: ObjectId, ref: "group"}],
-  gameCollection: [{type: ObjectId, ref: "game"}],
+  gameCollection: [{type: ObjectId, ref: "game-collection"}],
   googleID: String,
   steamId: String
 },
