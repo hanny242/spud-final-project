@@ -53,6 +53,8 @@ app.use('/users', usersRouter);
 app.use('/signup', signUp);
 app.use('/login', logIn);
 app.use('/game-collection', require("./routes/gameCollection"));
+app.use('/addgame', require("./routes/addGame"));
+app.use('/addfriend', require("./routes/addFriend"));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

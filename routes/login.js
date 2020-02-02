@@ -9,6 +9,7 @@ const ensureLogin = require("connect-ensure-login");
 const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
+const SteamStrategy = require("passport-steam").Strategy;
 
 //login
 router.get("/", (req, res, next) => {
@@ -54,10 +55,7 @@ passport.use(new LocalStrategy((username, password, next) => {
   });
 }));
 
-router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/login");
-});
+
 
 //passport OAuth
 
@@ -107,5 +105,28 @@ router.get(
       }
     )
   );
+  
+  passport.use(new SteamStrategy({
+    returnURL: 'http://localhost:3000/auth/steam/return',
+    realm: 'http://localhost:9000/',
+    apiKey: '548B2FB5DA3F5E2FC44E0150D140A458'
+  },
+  function(identifier, profile, done) {
+    User.findByOpenID({ openId: identifier }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
+
+router.get('/auth/steam',
+  passport.authenticate('steam'),
+  function(req, res) {
+  });
+ 
+router.get('/auth/steam/return',
+  passport.authenticate('steam', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
   
   module.exports = router;

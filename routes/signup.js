@@ -5,11 +5,6 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const bcryptSalt = 10;
 
-//signup
-router.get("/", (req, res, next) => {
-  res.render("/signup");
-});
-
 router.post("/", bodyParser, (req, res, next) => {
   const username = req.body.username;
   const password = req.body.password;
