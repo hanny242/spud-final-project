@@ -4,6 +4,13 @@ const Game = require("../models/Game");
 const User = require("../models/User");
 const passport = require("passport");
 
+// router.get("/test", (req, res, next) => {
+//   console.log("'/test' call");
+//   axios.get("https://api.rawg.io/api/games?page_limit=5&{$usersearch")
+//     .then(data => res.json(data))
+//     .catch(err => next(err));
+// })
+
 router.put("/", (req, res) => {
   if (!req.isAuthenticated())
   {
@@ -11,13 +18,7 @@ router.put("/", (req, res) => {
   }
   
   //Create game as a new model from Game
-  const addedGame = new Game({
-    name: req.body.name,
-    gameSession: req.body.gameSession,
-    image: req.body.image,
-    consoles: [req.body.consoles],
-    genre: req.body.genre
-  });
+  const addedGame = req.body.gameid;
 
   addedGame.save(err => {
     if (err) {

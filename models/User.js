@@ -4,14 +4,13 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 const friends = require("mongoose-friends")
 
 const User = mongoose.model("user", new Schema ({
-  userId: String,
   username: String,
   password: String,
   email: String,
   firstName: String,
   lastName: String,
   pendingFriends: [{type: ObjectId, ref: "user"}],
-  gameCollection: [{type: ObjectId, ref: "game-collection"}],
+  gameCollection: [Number],
   googleID: String,
   steamId: String
 },
