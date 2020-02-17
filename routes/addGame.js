@@ -1,42 +1,42 @@
 const express = require("express");
 const router = express.Router();
-const Game = require("../models/Game");
+const bodyParser = require("body-parser").json();
 const User = require("../models/User");
-const passport = require("passport");
 
-// router.get("/test", (req, res, next) => {
-//   console.log("'/test' call");
-//   axios.get("https://api.rawg.io/api/games?page_limit=5&{$usersearch")
-//     .then(data => res.json(data))
-//     .catch(err => next(err));
-// })
-
-router.put("/", (req, res) => {
-  if (!req.isAuthenticated())
-  {
-    res.send(401);
-  }
-  
-  //Create game as a new model from Game
+router.post("/", (req, res, next) => {
+debugger;
   const addedGame = req.body.gameid;
+  const conditions =  req.body._id
 
-  addedGame.save(err => {
-    if (err) {
-      res.render("/game-collection", {
-        message: "An error occurred during signup"
-      });
-    } else {
-      res.redirect("/");
+  User.findByIdAndUpdate(conditions,
+    {$push: {gameCollection: addedGame}},
+    {safe: true, upsert: true},
+    function(err, result) {
+        if(err){
+        console.log(err);
+        }else{
+        res.send(result);
+        }
     }
-  });
+);
+
+  // addedGame.save(err => {
+  //   if (err) {
+  //     res.render( {
+  //       message: "An error occurred"
+  //     });
+  //   } else {
+  //     res.redirect("/");
+  //   }
+  // });
 
   
   // Add game to user (from id) to their collection
-  var user = req.user
-  user.gameCollection.push(addedGame._id);
+ 
+  // user.gameCollection.push(addedGame);
 
-  User.findByIdAndUpdate(user._id, user, { new: true })
-    .catch(err => console.log(err)); 
+  // User.findByIdAndUpdate(req.params.user._id, user, { new: true })
+  //   .catch(err => console.log(err)); 
 
 });
 

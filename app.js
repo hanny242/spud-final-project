@@ -19,7 +19,7 @@ const app = express();
 //auth mongoose setup
 mongoose.Promise = Promise;
 mongoose
-  .connect('mongodb://localhost/spud-online', {useMongoClient: true})
+  .connect('mongodb://localhost/spud-online', {useMongoClient: true, useFindAndModify: false})
   .then(() => {
     console.log('Connected to Mongo!')
   }).catch(err => {
